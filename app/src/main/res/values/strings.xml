@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">BankAccountViewer</string>
+    <string name="title_transaction_detail">Transaction Detail</string>
+</resources>

@@ -32,7 +32,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.net.ssl.X509TrustManager;
-import org.apache.commons.codec.binary.Hex;
 
 public class FigoTrustManager implements X509TrustManager {
 
@@ -82,11 +81,22 @@ public class FigoTrustManager implements X509TrustManager {
             byte[] der = cert.getEncoded();
             md.update(der);
             byte[] digest = md.digest();
-            return new String(Hex.encodeHex(digest, false));
+            return new String(bytesToHex(digest));
         } catch (NoSuchAlgorithmException e) {
             return "";
         } catch (CertificateEncodingException e) {
             return "";
         }
+    }
+
+    final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
+    public static String bytesToHex(byte[] bytes) {
+        char[] hexChars = new char[bytes.length * 2];
+        for ( int j = 0; j < bytes.length; j++ ) {
+            int v = bytes[j] & 0xFF;
+            hexChars[j * 2] = hexArray[v >>> 4];
+            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+        }
+        return new String(hexChars);
     }
 }

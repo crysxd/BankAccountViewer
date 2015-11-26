@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">BankAccountViewer</string>
     <string name="title_transaction_detail">Transaction Detail</string>
+    <string name="ui_loading_data">Loading data…</string>
+    <string name="ui_error_loading_data">We were unable to laod your data</string>
+    <string name="ui_error_dialog_title">An error occurred</string>
+    <string name="ui_ok">ok</string>
 </resources>

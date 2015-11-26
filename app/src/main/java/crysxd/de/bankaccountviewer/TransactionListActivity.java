@@ -30,15 +30,13 @@ import java.util.List;
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-public class TransactionListActivity extends AppCompatActivity implements LoadTaskCallback<List<Account>> {
+public class TransactionListActivity extends LoadTaskActivity<List<Account>> {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
      */
     private boolean mTwoPane;
-
-    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,37 +57,6 @@ public class TransactionListActivity extends AppCompatActivity implements LoadTa
 
         AccountsLoadTask task = new AccountsLoadTask(this);
         task.execute();
-    }
-
-    @Override
-    public void showIndeterminateProgressDialog(int messageResource) {
-        if(null == this.mProgressDialog) {
-            this.mProgressDialog = new ProgressDialog(this);
-            this.mProgressDialog.setIndeterminate(true);
-            this.mProgressDialog.setCancelable(false);
-        }
-
-        this.mProgressDialog.setMessage(this.getString(messageResource));
-        this.mProgressDialog.show();
-
-    }
-
-    @Override
-    public void hideIndeterminateProgressDialog() {
-        if(null != this.mProgressDialog) {
-            this.mProgressDialog.hide();
-
-        }
-    }
-
-    @Override
-    public void showErrorDialog(int messageResource) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.ui_error_dialog_title);
-        builder.setMessage(messageResource);
-        builder.setPositiveButton(R.string.ui_ok, null);
-        builder.create().show();
-
     }
 
     @Override
@@ -128,6 +95,7 @@ public class TransactionListActivity extends AppCompatActivity implements LoadTa
                     if (mTwoPane) {
                         Bundle arguments = new Bundle();
                         arguments.putString(TransactionDetailFragment.ARG_ITEM_ID, holder.mItem.getAccountId());
+                        arguments.putString(TransactionDetailFragment.ARG_ITEM_NAME, holder.mItem.getName());
                         TransactionDetailFragment fragment = new TransactionDetailFragment();
                         fragment.setArguments(arguments);
                         getSupportFragmentManager().beginTransaction()
@@ -137,6 +105,7 @@ public class TransactionListActivity extends AppCompatActivity implements LoadTa
                         Context context = v.getContext();
                         Intent intent = new Intent(context, TransactionDetailActivity.class);
                         intent.putExtra(TransactionDetailFragment.ARG_ITEM_ID, holder.mItem.getAccountId());
+                        intent.putExtra(TransactionDetailFragment.ARG_ITEM_NAME, holder.mItem.getName());
 
                         context.startActivity(intent);
                     }

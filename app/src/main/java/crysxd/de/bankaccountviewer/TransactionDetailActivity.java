@@ -11,6 +11,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
+import java.util.List;
+
+import me.figo.models.Transaction;
+
 /**
  * An activity representing a single Transaction detail screen. This
  * activity is only used narrow width devices. On tablet-size devices,
@@ -54,6 +58,8 @@ public class TransactionDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
+            arguments.putString(TransactionDetailFragment.ARG_ITEM_NAME,
+                    getIntent().getStringExtra(TransactionDetailFragment.ARG_ITEM_NAME));
             arguments.putString(TransactionDetailFragment.ARG_ITEM_ID,
                     getIntent().getStringExtra(TransactionDetailFragment.ARG_ITEM_ID));
             TransactionDetailFragment fragment = new TransactionDetailFragment();

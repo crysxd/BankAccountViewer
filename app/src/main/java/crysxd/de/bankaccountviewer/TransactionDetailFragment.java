@@ -7,9 +7,11 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -114,13 +116,11 @@ public class TransactionDetailFragment extends Fragment implements LoadTaskCallb
     @Override
     public void onResult(List<Transaction> result) {
 
-        FrameLayout.LayoutParams pView = (FrameLayout.LayoutParams) mRecyclerView.getLayoutParams();
-        pView.height = mRoot.getHeight();
-        mRecyclerView.setLayoutParams(pView);
-        Log.e(this.getClass().getSimpleName(), "Height: " + pView.height);
-
         assert mRecyclerView != null;
         mRecyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(result));
+        mRecyclerView.setLayoutManager(new MyLinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false));
+        mRecyclerView.setNestedScrollingEnabled(false);
+
     }
 
     public class SimpleItemRecyclerViewAdapter
